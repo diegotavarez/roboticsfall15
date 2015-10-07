@@ -23,12 +23,15 @@ import lejos.utility.PilotProps;
 public class Robot {
 	static RegulatedMotor leftMotor;
 	static RegulatedMotor rightMotor;
+	int errorRate = 0;
+	
 	int sampleSize;
+	float test = -1;
 	float[] sample;
-	float[]sides;
-	int maxIndex;
+	float[]sides = new float[8];
+	int maxIndex = 0;
 	EV3ColorSensor sensor;
-	SampleProvider ambientMode;
+	SampleProvider mode;
 	SampleProvider colorIdMode;
 	SampleProvider reflectedLight;
 	
@@ -43,14 +46,30 @@ public class Robot {
 		Port s4 = brick.getPort("S4");
 		sensor = new EV3ColorSensor(s4);
 		
-		while(!Button.ESCAPE.isDown()){			
+		for (int i = 0; i < sides.length ; i++)
+		{
+			sides[i] = 0.0f;
+		}
+		
+		while(!Button.ESCAPE.isDown() && test < (sides[maxIndex] - errorRate)){	
+			
+			//procura melhor direcao e vai
+			
+			test = 0.0f;
 			initializeColorSensor();
 			calibrateBrightSensor(reflectedLight, sample);
-			calculateBrightBySide(sensor, robot, ambientMode, sampleSize, sides);
+			calculateBrightBySide(sensor, robot, mode, sampleSize, sides);
 			findBrightestDirection(robot, maxIndex);
 			goStraight(robot);
 			robot.reset();
 			//sensor.close();
+			
+			for(int j = 0; j < 50; j ++){
+				reflectedLight.fetchSample(sample, 0);
+				test += sample[0];
+			}
+			
+			errorRate = (int) ((sides[maxIndex]/100) * 5);
 		}
 		
 		//sensor.close();
@@ -59,7 +78,7 @@ public class Robot {
 	private void goStraight(DifferentialPilot robot) {
 		//go straight
 		Delay.msDelay(1000);	
-		robot.travel(20);
+		robot.travel(60);
 	}
 
 	private void initializeColorSensor() {
@@ -68,14 +87,13 @@ public class Robot {
 //		Port s4 = brick.getPort("S4");
 //		sensor = new EV3ColorSensor(s4);
 		
-		ambientMode = sensor.getAmbientMode();
+		mode = sensor.getRedMode();
 		colorIdMode = sensor.getColorIDMode();
 	
-		
-		reflectedLight = new autoAdjustFilter(ambientMode);
+		reflectedLight = new autoAdjustFilter(mode);
 		sampleSize = reflectedLight.sampleSize();
 		sample = new float[sampleSize];
-		sides = new float[4];
+		sides = new float[8];
 		maxIndex = 0;
 		
 	}
@@ -91,7 +109,7 @@ public class Robot {
 		boolean reverse = Boolean.parseBoolean(pp.getProperty(PilotProps.KEY_REVERSE,"false"));
 		DifferentialPilot robot = new DifferentialPilot(wheelDiameter,trackWidth,leftMotor,rightMotor,reverse);
 		robot.setAcceleration(4000);
-		robot.setTravelSpeed(20); // cm/sec
+		robot.setTravelSpeed(40); // cm/sec
 		robot.setRotateSpeed(90); // deg/sec
 		return robot;
 	}
@@ -108,25 +126,24 @@ public class Robot {
 		
 		
 		float[] sample = new float[sampleSize];
-		for (int i = 0; i < 4 ; i ++){
+		for (int i = 0; i < sides.length ; i ++){
 			Delay.msDelay(1500);
 			for(int j = 0; j < 50; j ++){
 				reflectedLight.fetchSample(sample, 0);
 				sides[i] += sample[0];
-				System.out.println(sample[0]);
 			}
 			System.out.println("\n--------------------------\nside " + i + ": " + sides[i] + " ");
-			robot.rotate(115);
+			robot.rotate(57);
 		}
 		maxIndex = maxIndex(sides);
 		System.out.println("\n-----------MAX INDEX---------------\n" + maxIndex + "\n\n");
 	}
 
 	private void findBrightestDirection(DifferentialPilot robot, int maxIndex) {
-		Delay.msDelay(2000);
+		Delay.msDelay(250);
 		//rotate to the side with the maximum value of brightness.
 		for (int i = 0; i < maxIndex; i ++){
-			robot.rotate(115);
+			robot.rotate(57);
 		}
 	}
 
@@ -185,7 +202,7 @@ public class Robot {
 		int maxIndex = 0;
 		for (int i = 1; i < list.length; i++){
 			float newnumber = list[i];
-			if ((newnumber > list[maxIndex])){
+			if ((newnumber > list[maxIndex]) && (newnumber != Float.NaN)){
 				maxIndex = i;
 			}
 		}
