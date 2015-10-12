@@ -6,6 +6,10 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 import lejos.robotics.Color;
+import lejos.robotics.RegulatedMotor;
+import lejos.robotics.navigation.DifferentialPilot;
+import lejos.utility.Delay;
+import lejos.utility.PilotProps;
 
 
 public class Teste{
@@ -31,7 +35,6 @@ public class Teste{
 	private static final String SWITCH_DELAY = null;
 
 	public static void main(String[] args) throws InterruptedException{
-
 		final EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S4);
 		SensorMode mode = colorSensor.getColorIDMode();
 		final ColorRecognizerThread colorRecognizerThread = new ColorRecognizerThread(colorSensor);
@@ -42,6 +45,13 @@ public class Teste{
 		
 		if(Button.ESCAPE.isDown()){
 			colorRecognizerThread.stop();
+		}
+		
+		DifferentialPilot robot = initializePilot();
+		while(!Button.DOWN.isDown())
+		{
+			robot.travel(30);
+			Delay.msDelay(2000);	
 		}
 	}
 
@@ -68,12 +78,25 @@ public class Teste{
 		return true;
 	}
 
-
-
 	private void switchMode(int mode, String switchDelay) {
 		// TODO Auto-generated method stub
 		System.out.println("teste: " + mode);
-
+	}
+	
+	private static DifferentialPilot initializePilot() {
+		/* Steps to initialize the pilot*/
+		PilotProps pp = new PilotProps();
+		//pp.loadPersistentValues();
+		float wheelDiameter = Float.parseFloat(pp.getProperty(PilotProps.KEY_WHEELDIAMETER, "4.0"));
+		float trackWidth = Float.parseFloat(pp.getProperty(PilotProps.KEY_TRACKWIDTH, "18.0"));
+		RegulatedMotor leftMotor = PilotProps.getMotor(pp.getProperty(PilotProps.KEY_LEFTMOTOR, "B"));
+		RegulatedMotor rightMotor = PilotProps.getMotor(pp.getProperty(PilotProps.KEY_RIGHTMOTOR, "C"));
+		boolean reverse = Boolean.parseBoolean(pp.getProperty(PilotProps.KEY_REVERSE,"false"));
+		DifferentialPilot robot = new DifferentialPilot(wheelDiameter,trackWidth,leftMotor,rightMotor,reverse);
+		robot.setAcceleration(4000);
+		robot.setTravelSpeed(40); // cm/sec
+		robot.setRotateSpeed(90); // deg/sec
+		return robot;
 	}
 }
 
