@@ -50,8 +50,7 @@ public class Teste{
 		DifferentialPilot robot = initializePilot();
 		while(!Button.DOWN.isDown())
 		{
-			robot.travel(30);
-			Delay.msDelay(2000);	
+			robot.travel(30);	
 		}
 	}
 
@@ -134,22 +133,12 @@ class ColorRecognizerThread extends Thread {
 			case 1:
 				Button.LEDPattern(1);
 				break;
-			//BLUE
-			case 2:
-				Button.LEDPattern(4);
-				break;
 			//YELLOW
 			case 3:
 				Button.LEDPattern(3);
 				break;
-			//WHITE
-			case 6:
-				Button.LEDPattern(7);
-				threadSleep(2000);
-				Button.LEDPattern(8);
-				threadSleep(2000);
-				Button.LEDPattern(9);
-				threadSleep(2000);	
+			//BLUE
+			case 2:	
 				Button.LEDPattern(0);
 				System.exit(0);
 				break;
