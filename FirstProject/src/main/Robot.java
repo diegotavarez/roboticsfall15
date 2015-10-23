@@ -31,7 +31,7 @@ public class Robot {
 	float[]sides = new float[8];
 	int maxIndex = 0;
 	EV3ColorSensor sensor;
-	SampleProvider mode;
+	SampleProvider ambientMode;
 	SampleProvider colorIdMode;
 	SampleProvider reflectedLight;
 	
@@ -58,7 +58,7 @@ public class Robot {
 			test = 0.0f;
 			initializeColorSensor();
 			calibrateBrightSensor(reflectedLight, sample);
-			calculateBrightBySide(sensor, robot, mode, sampleSize, sides);
+			calculateBrightBySide(sensor, robot, ambientMode, sampleSize, sides);
 			findBrightestDirection(robot, maxIndex);
 			goStraight(robot);
 			robot.reset();
@@ -87,10 +87,10 @@ public class Robot {
 //		Port s4 = brick.getPort("S4");
 //		sensor = new EV3ColorSensor(s4);
 		
-		mode = sensor.getRedMode();
+		ambientMode = sensor.getAmbientMode();
 		colorIdMode = sensor.getColorIDMode();
 	
-		reflectedLight = new autoAdjustFilter(mode);
+		reflectedLight = new autoAdjustFilter(ambientMode);
 		sampleSize = reflectedLight.sampleSize();
 		sample = new float[sampleSize];
 		sides = new float[8];
