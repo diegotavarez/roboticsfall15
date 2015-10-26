@@ -35,51 +35,31 @@ public class Teste{
 	private static final String SWITCH_DELAY = null;
 
 	public static void main(String[] args) throws InterruptedException{
-		final EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S4);
-		SensorMode mode = colorSensor.getColorIDMode();
-		final ColorRecognizerThread colorRecognizerThread = new ColorRecognizerThread(colorSensor);
+		final EV3ColorSensor pathColorSensor = new EV3ColorSensor(SensorPort.S3);
+		final EV3ColorSensor objectColorSensor = new EV3ColorSensor(SensorPort.S4);
 
+		//Path Color recognition thread
+		SensorMode pathColorMode = pathColorSensor.getColorIDMode();
+		final PathColorRecognizerThread colorRecognizerThread = new PathColorRecognizerThread(pathColorSensor);
 		colorRecognizerThread.start();
-
-		//Button.waitForAnyPress();
 		
-		if(Button.ESCAPE.isDown()){
-			colorRecognizerThread.stop();
-		}
+		//Object Color recognition thread
+		SensorMode objectColorMode = pathColorSensor.getColorIDMode();
+		final ObjectColorRecognizerThread objectRecognizerThread = new ObjectColorRecognizerThread(objectColorSensor);
+		objectRecognizerThread.start();
 		
+		//Pilot thread
 		DifferentialPilot robot = initializePilot();
-		while(!Button.DOWN.isDown())
-		{
-			robot.travel(30);	
+		final PilotThread pilotThread = new PilotThread(robot);
+		pilotThread.start();
+		
+		while(!Button.ESCAPE.isDown())
+		{ 
+			//Empty	
 		}
-	}
-
-	private boolean setFloodlight(int color)
-	{
-		int mode;
-		switch (color)
-		{
-		case Color.BLUE:
-			mode = COL_AMBIENT;
-			break;
-		case Color.WHITE:
-			mode = COL_COLOR;
-			break;
-		case Color.RED:
-			mode = COL_REFLECT;
-			break;
-		default:
-			// TODO: Should we ignore a wrong color or throw an exception?
-					throw new IllegalArgumentException("Invalid color specified");
-		}
-		switchMode(mode, SWITCH_DELAY);
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	private void switchMode(int mode, String switchDelay) {
-		// TODO Auto-generated method stub
-		System.out.println("teste: " + mode);
+		LCD.drawString("Finished",0, 7); 
+		LCD.refresh();
+		System.exit(0);
 	}
 	
 	private static DifferentialPilot initializePilot() {
@@ -97,67 +77,4 @@ public class Teste{
 		robot.setRotateSpeed(90); // deg/sec
 		return robot;
 	}
-}
-
-class ColorRecognizerThread extends Thread {
-
-	private EV3ColorSensor colorSensor;
-
-	public ColorRecognizerThread(final EV3ColorSensor colorSensor) {
-		this.colorSensor = colorSensor;
-	}
-
-	@Override
-	public void run() {
-		/* Button.LEDPattern(0): turn off button lights
-		 * Button.LEDPattern(1); static green light
-		 * Button.LEDPattern(2); static red light
-		 * Button.LEDPattern(3); static yellow light
-		 * Button.LEDPattern(4); normal blinking green light
-		 * Button.LEDPattern(5); normal blinking red light
-		 * Button.LEDPattern(6); normal blinking yellow light
-		 * Button.LEDPattern(7); fast blinking green light
-		 * Button.LEDPattern(8); fast blinking red light
-		 * Button.LEDPattern(9); fast blinking yellow light
-		 * Button.LEDPattern(>9); same as 9 
-		 */
-		
-		while(true){
-			final int colorId = colorSensor.getColorID();
-			switch (colorId){
-			//RED
-			case 0:
-				Button.LEDPattern(2);
-				break;
-			//GREEN
-			case 1:
-				Button.LEDPattern(1);
-				break;
-			//YELLOW
-			case 3:
-				Button.LEDPattern(3);
-				break;
-			//BLUE
-			case 2:	
-				Button.LEDPattern(0);
-				System.exit(0);
-				break;
-			default:
-				Button.LEDPattern(0);
-			}
-		}
-		
-		
-		
-		
-	}
-
-	private void threadSleep(final int ms) {
-		try {
-			Thread.sleep(ms);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
 }
