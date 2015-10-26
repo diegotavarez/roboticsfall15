@@ -31,23 +31,24 @@ public class ObjectColorRecognizerThread extends Thread {
 			switch (colorId){
 			//RED
 			case 0:
-				Button.LEDPattern(2);
+				System.out.println("RED OBJECT");
 				break;
 			//GREEN
 			case 1:
-				Button.LEDPattern(1);
+				System.out.println("GREEN OBJECT");
 				break;
 			//YELLOW
 			case 3:
-				Button.LEDPattern(3);
+				System.out.println("YELLOW OBJECT");
 				break;
 			//BLUE
 			case 2:	
+				System.out.println("BLUE OBJECT");
 				Button.LEDPattern(0);
 				System.exit(0);
 				break;
 			default:
-				Button.LEDPattern(0);
+				//Button.LEDPattern(0);
 			}
 		}
 		
