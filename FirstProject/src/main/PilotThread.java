@@ -19,7 +19,9 @@ public class PilotThread extends Thread {
 	}
 	
 	public static void turn(){
+		robot.travel(10);
 		robot.rotate(120);
+		robot.travel(10);
 	}
 
 	private void threadSleep(final int ms) {
