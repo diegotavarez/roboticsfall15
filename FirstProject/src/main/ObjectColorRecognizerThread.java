@@ -52,9 +52,6 @@ public class ObjectColorRecognizerThread extends Thread {
 			}
 		}
 		
-		
-		
-		
 	}
 
 	private void threadSleep(final int ms) {

@@ -43,8 +43,10 @@ public class PathColorRecognizerThread extends Thread {
 				break;
 			//BLUE
 			case 2:	
-				Button.LEDPattern(0);
-				System.exit(0);
+//				Button.LEDPattern(0);
+//				System.exit(0);
+				
+				Teste.pilotThread.turn();
 				break;
 			default:
 				Button.LEDPattern(0);

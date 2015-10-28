@@ -4,7 +4,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class PilotThread extends Thread {
 
-	private DifferentialPilot robot;
+	private static DifferentialPilot robot;
 
 	public PilotThread(final DifferentialPilot robot) {
 		this.robot = robot;
@@ -16,6 +16,10 @@ public class PilotThread extends Thread {
 			robot.travel(30);
 		}
 		
+	}
+	
+	public static void turn(){
+		robot.rotate(120);
 	}
 
 	private void threadSleep(final int ms) {

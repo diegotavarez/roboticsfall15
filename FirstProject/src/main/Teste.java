@@ -33,6 +33,10 @@ public class Teste{
 	private static final int COL_COLOR = 0;
 	private static final int COL_REFLECT = 0;
 	private static final String SWITCH_DELAY = null;
+	
+	public static ObjectColorRecognizerThread objectRecognizerThread;
+	public static PathColorRecognizerThread colorRecognizerThread;
+	public static PilotThread pilotThread;
 
 	public static void main(String[] args) throws InterruptedException{
 		final EV3ColorSensor pathColorSensor = new EV3ColorSensor(SensorPort.S3);
@@ -40,17 +44,17 @@ public class Teste{
 
 		//Path Color recognition thread
 		SensorMode pathColorMode = pathColorSensor.getColorIDMode();
-		final PathColorRecognizerThread colorRecognizerThread = new PathColorRecognizerThread(pathColorSensor);
+		colorRecognizerThread = new PathColorRecognizerThread(pathColorSensor);
 		colorRecognizerThread.start();
 		
 		//Object Color recognition thread
-		SensorMode objectColorMode = pathColorSensor.getColorIDMode();
-		final ObjectColorRecognizerThread objectRecognizerThread = new ObjectColorRecognizerThread(objectColorSensor);
+		SensorMode objectColorMode = objectColorSensor.getColorIDMode();
+		objectRecognizerThread = new ObjectColorRecognizerThread(objectColorSensor);
 		objectRecognizerThread.start();
 		
 		//Pilot thread
 		DifferentialPilot robot = initializePilot();
-		final PilotThread pilotThread = new PilotThread(robot);
+		pilotThread = new PilotThread(robot);
 		pilotThread.start();
 		
 		while(!Button.ESCAPE.isDown())
