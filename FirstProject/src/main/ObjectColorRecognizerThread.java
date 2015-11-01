@@ -4,6 +4,8 @@ import lejos.hardware.Button;
 import lejos.hardware.sensor.EV3ColorSensor;
 
 public class ObjectColorRecognizerThread extends Thread {
+	
+	public static int objectColor = -1;
 
 	private EV3ColorSensor colorSensor;
 
@@ -31,19 +33,22 @@ public class ObjectColorRecognizerThread extends Thread {
 			switch (colorId){
 			//RED
 			case 0:
-				System.out.println("RED OBJECT");
+				//System.out.println("RED OBJECT");
+				objectColor = 0;
 				break;
 			//GREEN
 			case 1:
-				System.out.println("GREEN OBJECT");
+				//System.out.println("GREEN OBJECT");
+				objectColor = 1;
 				break;
 			//YELLOW
 			case 3:
-				System.out.println("YELLOW OBJECT");
+				//System.out.println("YELLOW OBJECT");
+				objectColor = 3;
 				break;
 			//BLUE
 			case 2:	
-				System.out.println("BLUE OBJECT");
+				//System.out.println("BLUE OBJECT");
 				Button.LEDPattern(0);
 				System.exit(0);
 				break;

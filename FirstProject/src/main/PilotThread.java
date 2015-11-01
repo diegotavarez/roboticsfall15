@@ -12,16 +12,22 @@ public class PilotThread extends Thread {
 
 	@Override
 	public void run() {
-		while(true){
-			robot.travel(30);
+		while(PathColorRecognizerThread.colorId != -1){
+			robot.travel(10);
 		}
 		
 	}
 	
-	public static void turn(){
+	public static void turnRight(){
 		robot.travel(10);
 		robot.rotate(120);
 		robot.travel(10);
+	}
+	
+	public static void turnLeft(){
+		robot.travel(10);
+		robot.rotate(-120);
+		robot.rotate(10);
 	}
 
 	private void threadSleep(final int ms) {
