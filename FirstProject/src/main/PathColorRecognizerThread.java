@@ -52,10 +52,11 @@ public class PathColorRecognizerThread extends Thread {
 					Teste.pilotThread.turnRight();
 				break;
 			//BLUE
-			case 2:	
+			case 2:
+				// object area
+				// call recognize color
 //				Button.LEDPattern(0);
 //				System.exit(0);
-				
 				Teste.pilotThread.turnRight();
 				break;
 			default:

@@ -1,7 +1,10 @@
 package main;
 
+import javax.swing.text.DefaultEditorKit.BeepAction;
+
 import lejos.hardware.Button;
 import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.Sound;
 
 public class ObjectColorRecognizerThread extends Thread {
 	
@@ -33,18 +36,24 @@ public class ObjectColorRecognizerThread extends Thread {
 			switch (colorId){
 			//RED
 			case 0:
-				//System.out.println("RED OBJECT");
+				System.out.println("RED OBJECT");
 				objectColor = 0;
+				
+				this.suspend();
 				break;
 			//GREEN
 			case 1:
-				//System.out.println("GREEN OBJECT");
+				System.out.println("GREEN OBJECT");
 				objectColor = 1;
+				
+				this.suspend();
 				break;
 			//YELLOW
 			case 3:
-				//System.out.println("YELLOW OBJECT");
-				objectColor = 3;
+				System.out.println("YELLOW OBJECT");
+				objectColor = 3;				
+
+				this.suspend();
 				break;
 			//BLUE
 			case 2:	

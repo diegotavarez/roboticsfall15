@@ -59,7 +59,10 @@ public class Teste{
 		
 		while(!Button.ESCAPE.isDown())
 		{ 
-			//Empty	
+			if(Button.ENTER.isDown() && !objectRecognizerThread.isAlive())
+			{
+				objectRecognizerThread.resume();
+			}
 		}
 		LCD.drawString("Finished",0, 7); 
 		LCD.refresh();
