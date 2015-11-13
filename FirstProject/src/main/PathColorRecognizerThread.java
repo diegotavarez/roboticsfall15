@@ -34,22 +34,36 @@ public class PathColorRecognizerThread extends Thread {
 			case 0:
 				Button.LEDPattern(2);
 				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
-				if(ObjectColorRecognizerThread.objectColor==colorId)
+				if(ObjectColorRecognizerThread.objectColor==colorId){
 					Teste.pilotThread.turnRight();
+				
+					Teste.pilotThread.goBack();
+					Teste.pilotThread.stop();
+				}
 				break;
 			//GREEN
 			case 1:
 				Button.LEDPattern(1);
 				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
-				if(ObjectColorRecognizerThread.objectColor==colorId)
+				if(ObjectColorRecognizerThread.objectColor==colorId){
 					Teste.pilotThread.turnRight();
+				
+					Teste.pilotThread.goBack();
+					Teste.pilotThread.stop();
+
+				}
 				break;
 			//YELLOW
 			case 3:
 				Button.LEDPattern(3);
 				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
-				if(ObjectColorRecognizerThread.objectColor==colorId)
+				if(ObjectColorRecognizerThread.objectColor==colorId){
 					Teste.pilotThread.turnRight();
+					
+					Teste.pilotThread.goBack();
+					Teste.pilotThread.stop();
+
+				}
 				break;
 			//BLUE
 			case 2:
@@ -57,15 +71,15 @@ public class PathColorRecognizerThread extends Thread {
 				// call recognize color
 //				Button.LEDPattern(0);
 //				System.exit(0);
-				Teste.pilotThread.turnRight();
+				
+				
+				//Teste.pilotThread.turnRight();
+				Teste.pilotThread.stop();
 				break;
 			default:
 				Button.LEDPattern(0);
 			}
 		}
-		
-		
-		
 		
 	}
 

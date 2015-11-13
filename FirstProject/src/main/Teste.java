@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Stack;
+
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.port.SensorPort;
@@ -34,6 +36,8 @@ public class Teste{
 	private static final int COL_REFLECT = 0;
 	private static final String SWITCH_DELAY = null;
 	
+	public static Stack movements = new Stack();
+	
 	public static ObjectColorRecognizerThread objectRecognizerThread;
 	public static PathColorRecognizerThread colorRecognizerThread;
 	public static PilotThread pilotThread;
@@ -42,6 +46,7 @@ public class Teste{
 		final EV3ColorSensor pathColorSensor = new EV3ColorSensor(SensorPort.S3);
 		final EV3ColorSensor objectColorSensor = new EV3ColorSensor(SensorPort.S4);
 
+		
 		//Path Color recognition thread
 		SensorMode pathColorMode = pathColorSensor.getColorIDMode();
 		colorRecognizerThread = new PathColorRecognizerThread(pathColorSensor);
