@@ -58,7 +58,7 @@ public class Teste{
 		objectRecognizerThread.start();
 		
 		//Pilot thread
-		DifferentialPilot robot = initializePilot();
+		DifferentialPilot robot = initializePilot("true");
 		pilotThread = new PilotThread(robot);
 		pilotThread.start();
 		
@@ -74,7 +74,7 @@ public class Teste{
 		System.exit(0);
 	}
 	
-	private static DifferentialPilot initializePilot() {
+	public static DifferentialPilot initializePilot(String isReverse) {
 		/* Steps to initialize the pilot*/
 		PilotProps pp = new PilotProps();
 		//pp.loadPersistentValues();
@@ -82,7 +82,7 @@ public class Teste{
 		float trackWidth = Float.parseFloat(pp.getProperty(PilotProps.KEY_TRACKWIDTH, "18.0"));
 		RegulatedMotor leftMotor = PilotProps.getMotor(pp.getProperty(PilotProps.KEY_LEFTMOTOR, "B"));
 		RegulatedMotor rightMotor = PilotProps.getMotor(pp.getProperty(PilotProps.KEY_RIGHTMOTOR, "C"));
-		boolean reverse = Boolean.parseBoolean(pp.getProperty(PilotProps.KEY_REVERSE,"true"));
+		boolean reverse = Boolean.parseBoolean(pp.getProperty(PilotProps.KEY_REVERSE,isReverse));
 		DifferentialPilot robot = new DifferentialPilot(wheelDiameter,trackWidth,leftMotor,rightMotor,reverse);
 		robot.setAcceleration(4000);
 		robot.setTravelSpeed(40); // cm/sec

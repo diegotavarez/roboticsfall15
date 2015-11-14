@@ -38,7 +38,16 @@ public class PathColorRecognizerThread extends Thread {
 					Teste.pilotThread.turnRight();
 				
 					Teste.pilotThread.goBack();
-					Teste.pilotThread.stop();
+					
+					try
+					{
+						Thread.sleep(3000);						
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+					System.exit(0);
 				}
 				break;
 			//GREEN
@@ -49,7 +58,16 @@ public class PathColorRecognizerThread extends Thread {
 					Teste.pilotThread.turnRight();
 				
 					Teste.pilotThread.goBack();
-					Teste.pilotThread.stop();
+					
+					try
+					{
+						Thread.sleep(3000);						
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+					System.exit(0);
 
 				}
 				break;
@@ -61,7 +79,15 @@ public class PathColorRecognizerThread extends Thread {
 					Teste.pilotThread.turnRight();
 					
 					Teste.pilotThread.goBack();
-					Teste.pilotThread.stop();
+					try
+					{
+						Thread.sleep(3000);						
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+					System.exit(0);
 
 				}
 				break;
@@ -74,10 +100,10 @@ public class PathColorRecognizerThread extends Thread {
 				
 				
 				//Teste.pilotThread.turnRight();
-				Teste.pilotThread.stop();
 				break;
 			default:
 				Button.LEDPattern(0);
+				//Teste.pilotThread.travel();
 			}
 		}
 		

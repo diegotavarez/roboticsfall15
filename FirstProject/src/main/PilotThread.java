@@ -12,11 +12,14 @@ public class PilotThread extends Thread {
 
 	@Override
 	public void run() {
-		while(PathColorRecognizerThread.colorId != -1){
+		while(true){
 			robot.travel(10);
 			Teste.movements.push("TRAVEL|10");
 		}
-		
+	}
+	
+	public static void travel(){
+		robot.travel(10);
 	}
 	
 	public static void turnRight(){
@@ -53,16 +56,18 @@ public class PilotThread extends Thread {
 	
 	public static void goBack()
 	{
+		robot = Teste.initializePilot("false");
+		
 		for (int i = 0 ; i < Teste.movements.size(); i ++)
 		{
 			String movement = Teste.movements.pop().toString();
 			String[] data = movement.split("|");
 			
 			if (data[0].equals("TRAVEL")){
-				robot.travel((-1) * Integer.parseInt(data[1]));
+				robot.travel(Integer.parseInt(data[1]));
 			} else if (data[0].equals("ROTATE"))
 			{
-				robot.rotate((-1) * Integer.parseInt(data[1]));
+				robot.rotate(Integer.parseInt(data[1]));
 			}
 		}
 	}
