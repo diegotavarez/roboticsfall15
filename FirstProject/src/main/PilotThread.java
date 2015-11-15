@@ -23,17 +23,14 @@ public class PilotThread extends Thread {
 	}
 	
 	public static void turnRight(){
-		robot.travel(5);
+		robot.travel(10);
 		Teste.movements.push("TRAVEL|5");
 
 		robot.rotate(110);
 		Teste.movements.push("ROTATE|120");
-
-		robot.travel(10);
-		Teste.movements.push("TRAVEL|10");
 		
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -61,26 +58,32 @@ public class PilotThread extends Thread {
 	
 	public static void goBack()
 	{
-//		robot = Teste.initializePilot("false");
-//		
-//		for (int i = 0 ; i < Teste.movements.size(); i ++)
-//		{
-//			String movement = Teste.movements.pop().toString();
-//			String[] data = movement.split("|");
-//			
-//			if (data[0].equals("TRAVEL")){
-//				robot.travel(Integer.parseInt(data[1]));
-//			} else if (data[0].equals("ROTATE"))
-//			{
-//				robot.rotate(Integer.parseInt(data[1]));
-//			}
-//			
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		robot = Teste.initializePilot("false");
+		
+		for (int i = 0 ; i < Teste.movements.size(); i ++)
+		{
+			String movement = Teste.movements.pop().toString();
+			String[] data = movement.split("|");
+			
+			if (data[0].equals("TRAVEL")){
+				robot.travel(Integer.parseInt(data[1]));
+			} else if (data[0].equals("ROTATE"))
+			{
+				turnLeft();
+			}
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 

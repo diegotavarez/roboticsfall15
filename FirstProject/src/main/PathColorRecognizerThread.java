@@ -39,14 +39,7 @@ public class PathColorRecognizerThread extends Thread {
 				
 					Teste.pilotThread.goBack();
 					
-					try
-					{
-						Thread.sleep(3000);						
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
+					
 					System.exit(0);
 				}
 				break;
@@ -59,14 +52,6 @@ public class PathColorRecognizerThread extends Thread {
 				
 					Teste.pilotThread.goBack();
 					
-					try
-					{
-						Thread.sleep(3000);						
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
 					System.exit(0);
 
 				}
@@ -79,14 +64,7 @@ public class PathColorRecognizerThread extends Thread {
 					Teste.pilotThread.turnRight();
 					
 					Teste.pilotThread.goBack();
-					try
-					{
-						Thread.sleep(3000);						
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
+					
 					System.exit(0);
 
 				}
