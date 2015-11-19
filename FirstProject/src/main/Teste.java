@@ -86,7 +86,7 @@ public class Teste{
 		DifferentialPilot robot = new DifferentialPilot(wheelDiameter,trackWidth,leftMotor,rightMotor,reverse);
 		robot.setAcceleration(40);
 		robot.setTravelSpeed(10); // cm/sec
-		robot.setRotateSpeed(15); // deg/sec
+		robot.setRotateSpeed(50); // deg/sec
 		return robot;
 	}
 	

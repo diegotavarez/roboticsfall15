@@ -3,6 +3,8 @@ package main;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class PilotThread extends Thread {
+	
+	public static boolean travel = true;
 
 	private static DifferentialPilot robot;
 
@@ -13,6 +15,7 @@ public class PilotThread extends Thread {
 	@Override
 	public void run() {
 		while(true){
+			if(travel)
 			robot.travel(10);
 			Teste.movements.push("TRAVEL|10");
 		}
@@ -23,11 +26,17 @@ public class PilotThread extends Thread {
 	}
 	
 	public static void turnRight(){
-		robot.travel(10);
+		travel = false;
+		
+		robot.travel(15);
+		
 		Teste.movements.push("TRAVEL|5");
 
 		robot.rotate(110);
 		Teste.movements.push("ROTATE|120");
+		
+		//Teste.pilotThread.resume();
+		travel = true;
 		
 		try {
 			Thread.sleep(1500);
@@ -37,6 +46,7 @@ public class PilotThread extends Thread {
 	}
 	
 	public static void turnLeft(){
+		Teste.pilotThread.stop();
 		robot.travel(10);
 		Teste.movements.push("TRAVEL|10");
 
@@ -45,6 +55,7 @@ public class PilotThread extends Thread {
 
 		robot.rotate(10);
 		Teste.movements.push("TRAVEL|10");
+		Teste.pilotThread.resume();
 
 	}
 
