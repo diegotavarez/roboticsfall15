@@ -84,9 +84,9 @@ public class Teste{
 		RegulatedMotor rightMotor = PilotProps.getMotor(pp.getProperty(PilotProps.KEY_RIGHTMOTOR, "C"));
 		boolean reverse = Boolean.parseBoolean(pp.getProperty(PilotProps.KEY_REVERSE,isReverse));
 		DifferentialPilot robot = new DifferentialPilot(wheelDiameter,trackWidth,leftMotor,rightMotor,reverse);
-		robot.setAcceleration(4000);
-		robot.setTravelSpeed(40); // cm/sec
-		robot.setRotateSpeed(90); // deg/sec
+		robot.setAcceleration(40);
+		robot.setTravelSpeed(10); // cm/sec
+		robot.setRotateSpeed(15); // deg/sec
 		return robot;
 	}
 	

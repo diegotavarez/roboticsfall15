@@ -37,7 +37,7 @@ public class PathColorRecognizerThread extends Thread {
 				if(ObjectColorRecognizerThread.objectColor==colorId){
 					Teste.pilotThread.turnRight();
 				
-					Teste.pilotThread.goBack();
+					//Teste.pilotThread.goBack();
 					
 					
 					System.exit(0);
@@ -50,7 +50,7 @@ public class PathColorRecognizerThread extends Thread {
 				if(ObjectColorRecognizerThread.objectColor==colorId){
 					Teste.pilotThread.turnRight();
 				
-					Teste.pilotThread.goBack();
+					//Teste.pilotThread.goBack();
 					
 					System.exit(0);
 
@@ -63,7 +63,7 @@ public class PathColorRecognizerThread extends Thread {
 				if(ObjectColorRecognizerThread.objectColor==colorId){
 					Teste.pilotThread.turnRight();
 					
-					Teste.pilotThread.goBack();
+					//Teste.pilotThread.goBack();
 					
 					System.exit(0);
 
