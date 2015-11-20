@@ -15,7 +15,7 @@ public class PilotThread extends Thread {
 	@Override
 	public void run() {
 		while(true){
-			if(travel)
+			if(travel && ObjectColorRecognizerThread.objectColor != -1)
 			robot.travel(10);
 			Teste.movements.push("TRAVEL|10");
 		}
@@ -28,14 +28,13 @@ public class PilotThread extends Thread {
 	public static void turnRight(){
 		travel = false;
 		
-		robot.travel(15);
+		robot.travel(25);
 		
 		Teste.movements.push("TRAVEL|5");
 
 		robot.rotate(110);
 		Teste.movements.push("ROTATE|120");
 		
-		//Teste.pilotThread.resume();
 		travel = true;
 		
 		try {
@@ -46,8 +45,8 @@ public class PilotThread extends Thread {
 	}
 	
 	public static void turnLeft(){
-		Teste.pilotThread.stop();
-		robot.travel(10);
+		travel = false;
+		robot.travel(15);
 		Teste.movements.push("TRAVEL|10");
 
 		robot.rotate(-120);
@@ -55,7 +54,8 @@ public class PilotThread extends Thread {
 
 		robot.rotate(10);
 		Teste.movements.push("TRAVEL|10");
-		Teste.pilotThread.resume();
+		
+		travel = true;
 
 	}
 
