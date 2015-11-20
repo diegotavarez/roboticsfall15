@@ -7,6 +7,7 @@ public class PathColorRecognizerThread extends Thread {
 
 	private static EV3ColorSensor colorSensor;
 	public static int colorId = -1;
+	public static boolean delivered = false;
 
 	public PathColorRecognizerThread(final EV3ColorSensor colorSensor) {
 		this.colorSensor = colorSensor;
@@ -34,25 +35,25 @@ public class PathColorRecognizerThread extends Thread {
 			case 0:
 				Button.LEDPattern(2);
 				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
-				if(ObjectColorRecognizerThread.objectColor==colorId){
+				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
 					Teste.pilotThread.turnRight();
 				
 					//Teste.pilotThread.goBack();
 					
 					
-					System.exit(0);
+					//System.exit(0);
 				}
 				break;
 			//GREEN
 			case 1:
 				Button.LEDPattern(1);
 				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
-				if(ObjectColorRecognizerThread.objectColor==colorId){
+				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
 					Teste.pilotThread.turnRight();
 				
 					//Teste.pilotThread.goBack();
 					
-					System.exit(0);
+			//		System.exit(0);
 
 				}
 				break;
@@ -60,17 +61,27 @@ public class PathColorRecognizerThread extends Thread {
 			case 3:
 				Button.LEDPattern(3);
 				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
-				if(ObjectColorRecognizerThread.objectColor==colorId){
+				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
 					Teste.pilotThread.turnRight();
 					
 					//Teste.pilotThread.goBack();
 					
-					System.exit(0);
+			//		System.exit(0);
 
 				}
 				break;
 			//BLUE
 			case 2:
+				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
+
+				if(delivered == true)
+				{
+					PilotThread.robot.travel(-15);
+					ObjectColorRecognizerThread.objectColor = -1;
+					Teste.objectRecognizerThread.resume();
+					PilotThread.travel_distance = 10;
+					delivered = false;
+				}
 				// object area
 				// call recognize color
 //				Button.LEDPattern(0);

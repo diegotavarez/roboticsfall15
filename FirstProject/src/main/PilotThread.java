@@ -5,8 +5,9 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class PilotThread extends Thread {
 	
 	public static boolean travel = true;
+	public static int travel_distance = 10;
 
-	private static DifferentialPilot robot;
+	public static DifferentialPilot robot;
 
 	public PilotThread(final DifferentialPilot robot) {
 		this.robot = robot;
@@ -16,8 +17,7 @@ public class PilotThread extends Thread {
 	public void run() {
 		while(true){
 			if(travel && ObjectColorRecognizerThread.objectColor != -1)
-			robot.travel(10);
-			Teste.movements.push("TRAVEL|10");
+			robot.travel(travel_distance);
 		}
 	}
 	
@@ -30,30 +30,28 @@ public class PilotThread extends Thread {
 		
 		robot.travel(25);
 		
-		Teste.movements.push("TRAVEL|5");
-
 		robot.rotate(110);
-		Teste.movements.push("ROTATE|120");
 		
-		travel = true;
+		robot.travel(25);
 		
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		//travel = true;
+		
+		goBack1();
+		
+	//	try {
+	//		Thread.sleep(1500);
+	//	} catch (InterruptedException e) {
+	//		e.printStackTrace();
+	//	}
 	}
 	
 	public static void turnLeft(){
 		travel = false;
 		robot.travel(15);
-		Teste.movements.push("TRAVEL|10");
 
 		robot.rotate(-120);
-		Teste.movements.push("ROTATE|-120");
 
 		robot.rotate(10);
-		Teste.movements.push("TRAVEL|10");
 		
 		travel = true;
 
@@ -67,8 +65,18 @@ public class PilotThread extends Thread {
 		}
 	}
 	
+	public static void goBack1()
+	{
+		robot.travel(-25);
+		robot.rotate(-110);
+		travel_distance = -10;
+		PathColorRecognizerThread.delivered = true;
+		travel = true;
+	}
+	
 	public static void goBack()
 	{
+		/*
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -94,7 +102,7 @@ public class PilotThread extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 

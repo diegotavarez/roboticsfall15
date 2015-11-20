@@ -36,7 +36,7 @@ public class Teste{
 	private static final int COL_REFLECT = 0;
 	private static final String SWITCH_DELAY = null;
 	
-	public static Stack movements = new Stack();
+	//public static Stack movements = new Stack();
 	
 	public static ObjectColorRecognizerThread objectRecognizerThread;
 	public static PathColorRecognizerThread colorRecognizerThread;

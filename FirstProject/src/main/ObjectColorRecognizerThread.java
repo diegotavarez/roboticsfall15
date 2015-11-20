@@ -34,6 +34,8 @@ public class ObjectColorRecognizerThread extends Thread {
 		while(true){
 			final int colorId = colorSensor.getColorID();
 			switch (colorId){
+	//		case -1:
+				//break;
 			//RED
 			case 0:
 				System.out.println("RED OBJECT");
@@ -59,7 +61,6 @@ public class ObjectColorRecognizerThread extends Thread {
 			case 2:	
 				//System.out.println("BLUE OBJECT");
 				Button.LEDPattern(0);
-				System.exit(0);
 				break;
 			default:
 				//Button.LEDPattern(0);
