@@ -76,7 +76,7 @@ public class PathColorRecognizerThread extends Thread {
 
 				if(delivered == true)
 				{
-					PilotThread.robot.travel(-15);
+					PilotThread.robot.travel(-10);
 					ObjectColorRecognizerThread.objectColor = -1;
 					Teste.objectRecognizerThread.resume();
 					PilotThread.travel_distance = 10;

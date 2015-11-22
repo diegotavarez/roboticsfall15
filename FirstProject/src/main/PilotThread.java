@@ -36,7 +36,7 @@ public class PilotThread extends Thread {
 		
 		//travel = true;
 		
-		goBack1();
+		goBackFromRight();
 		
 	//	try {
 	//		Thread.sleep(1500);
@@ -46,14 +46,18 @@ public class PilotThread extends Thread {
 	}
 	
 	public static void turnLeft(){
-		travel = false;
-		robot.travel(15);
-
-		robot.rotate(-120);
-
-		robot.rotate(10);
 		
-		travel = true;
+		travel = false;
+		
+		robot.travel(25);
+		
+		robot.rotate(-110);
+		
+		robot.travel(25);
+		
+		//travel = true;
+		
+		goBackFromLeft();
 
 	}
 
@@ -65,10 +69,19 @@ public class PilotThread extends Thread {
 		}
 	}
 	
-	public static void goBack1()
+	public static void goBackFromRight()
 	{
 		robot.travel(-25);
 		robot.rotate(-110);
+		travel_distance = -10;
+		PathColorRecognizerThread.delivered = true;
+		travel = true;
+	}
+	
+	public static void goBackFromLeft()
+	{
+		robot.travel(-25);
+		robot.rotate(110);
 		travel_distance = -10;
 		PathColorRecognizerThread.delivered = true;
 		travel = true;
