@@ -8,9 +8,16 @@ public class PathColorRecognizerThread extends Thread {
 	private static EV3ColorSensor colorSensor;
 	public static int colorId = -1;
 	public static boolean delivered = false;
+	public static Location current_location = new Location(3,1); // 3,1 pq tem que ser 2,1 a primeira celula entao qd
+																 // achar a primeira celula diminui 1 e fica 2,1
+	public static int current_color = -1;
+	public static int[][] map = new int[3][3];
 
 	public PathColorRecognizerThread(final EV3ColorSensor colorSensor) {
 		this.colorSensor = colorSensor;
+		for(int i = 0; i < 3; i++)
+			for(int j = 0; j < 3; j++)
+				map[i][j] = 0;
 	}
 
 	@Override
@@ -33,49 +40,118 @@ public class PathColorRecognizerThread extends Thread {
 			switch (colorId){
 			//RED
 			case 0:
+				if(current_color != 0)
+				{
+					System.out.println("ENTREI NO RED" + "i = " + getCurrentLocation().getI());
+					System.out.println("ENTREI NO RED" + "j = " + getCurrentLocation().getJ());
+			
+					if(PilotThread.travel_distance == 10)
+					{
+						updateCurrentLocation(true); // esta chamando varias vezes (corrigir)
+					}
+					else
+						updateCurrentLocation(false);
+				}
 				Button.LEDPattern(2);
-				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
+			//	System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
 				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
-					Teste.pilotThread.turnRight();
-				
-					//Teste.pilotThread.goBack();
-					
+					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] == 0)
+						Teste.pilotThread.turnRight();
+					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] == 0)
+						Teste.pilotThread.turnLeft();
+					else
+						System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) 
+								+ Integer.toString(colorId));
+					//Teste.pilotThread.goBack();		
 					
 					//System.exit(0);
 				}
+				current_color = 0; // chamar dentro do turn, vai q
+
+				System.out.println("SAI DO RED" + "i = " + getCurrentLocation().getI());
+				System.out.println("SAI DO RED" + "j = " + getCurrentLocation().getJ());
 				break;
 			//GREEN
 			case 1:
+				if(current_color != 1)
+				{
+					System.out.println("ENTREI NO green" + "i = " + getCurrentLocation().getI());
+					System.out.println("ENTREI NO green" + "j = " + getCurrentLocation().getJ());
+
+					if(PilotThread.travel_distance == 10)
+					{
+						updateCurrentLocation(true);
+					}
+					else
+						updateCurrentLocation(false);
+				}
+				// updateLocation
 				Button.LEDPattern(1);
-				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
-				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
-					Teste.pilotThread.turnRight();
+			//	System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
 				
+				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
+					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] == 0)
+						Teste.pilotThread.turnRight();
+					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] == 0)
+						Teste.pilotThread.turnLeft();
+					else
+						System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) 
+								+ Integer.toString(colorId));
+					
 					//Teste.pilotThread.goBack();
 					
 			//		System.exit(0);
 
 				}
+				current_color = 1;
+				System.out.println("sai do green" + "i = " + getCurrentLocation().getI());
+				System.out.println("sai do green" + "j = " + getCurrentLocation().getJ());
 				break;
 			//YELLOW
 			case 3:
+				if(current_color != 3)
+				{
+					System.out.println("ENTREI NO yellow" + "i = " + getCurrentLocation().getI());
+					System.out.println("ENTREI NO yellow" + "j = " + getCurrentLocation().getJ());
+					if(PilotThread.travel_distance == 10)
+					{
+						updateCurrentLocation(true);
+					}
+					else
+						updateCurrentLocation(false);
+				}
+				// updateLocation
 				Button.LEDPattern(3);
-				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
+			//	System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
 				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
-					Teste.pilotThread.turnRight();
-					
+					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] == 0)
+						Teste.pilotThread.turnRight();
+					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] == 0)
+						Teste.pilotThread.turnLeft();
+					else
+						System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) 
+								+ Integer.toString(colorId));					
 					//Teste.pilotThread.goBack();
 					
 			//		System.exit(0);
 
 				}
+				current_color = 3;
+				System.out.println("sai do yellow" + "i = " + getCurrentLocation().getI());
+				System.out.println("sai do yellow" + "j = " + getCurrentLocation().getJ());
 				break;
 			//BLUE
 			case 2:
-				System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
+				// updateLocation
+			//	System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
 
 				if(delivered == true)
 				{
+					current_color = -1;
+					current_location.setI(3);
+					current_location.setJ(1);
+					System.out.println("entrei no azul" + "i = " + getCurrentLocation().getI());
+					System.out.println("entrei no azul" + "j = " + getCurrentLocation().getJ());
 					PilotThread.robot.travel(-10);
 					ObjectColorRecognizerThread.objectColor = -1;
 					Teste.objectRecognizerThread.resume();
@@ -96,6 +172,21 @@ public class PathColorRecognizerThread extends Thread {
 			}
 		}
 		
+	}
+	
+	public static Location getCurrentLocation()
+	{
+		return current_location;
+	}
+	
+	public void updateCurrentLocation(boolean direction)
+	{
+		if(direction)
+			current_location.i--;
+		else
+			current_location.i++;
+			
+			
 	}
 
 	private void threadSleep(final int ms) {

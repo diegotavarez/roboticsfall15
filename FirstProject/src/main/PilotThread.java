@@ -34,6 +34,9 @@ public class PilotThread extends Thread {
 		
 		robot.travel(25);
 		
+		PathColorRecognizerThread.map[PathColorRecognizerThread.getCurrentLocation().getI()]
+				[PathColorRecognizerThread.getCurrentLocation().getJ() + 1] = 1;
+		
 		//travel = true;
 		
 		goBackFromRight();
@@ -54,6 +57,9 @@ public class PilotThread extends Thread {
 		robot.rotate(-110);
 		
 		robot.travel(25);
+		
+		PathColorRecognizerThread.map[PathColorRecognizerThread.getCurrentLocation().getI()]
+				[PathColorRecognizerThread.getCurrentLocation().getJ() - 1] = 1;
 		
 		//travel = true;
 		
