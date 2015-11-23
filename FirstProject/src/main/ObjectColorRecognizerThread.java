@@ -39,23 +39,32 @@ public class ObjectColorRecognizerThread extends Thread {
 			//RED
 			case 0:
 				System.out.println("RED OBJECT");
+
+				if(checkForSpace(0))
+				{
 				objectColor = 0;
-				
 				this.suspend();
+				}
 				break;
 			//GREEN
 			case 1:
 				System.out.println("GREEN OBJECT");
-				objectColor = 1;
 				
+				if(checkForSpace(1))
+				{
+				objectColor = 1;
 				this.suspend();
+				}
+				
 				break;
 			//YELLOW
 			case 3:
 				System.out.println("YELLOW OBJECT");
-				objectColor = 3;				
-
+				if(checkForSpace(3))
+				{
+				objectColor = 3;
 				this.suspend();
+				}
 				break;
 			//BLUE
 			case 2:	
@@ -66,6 +75,25 @@ public class ObjectColorRecognizerThread extends Thread {
 				//Button.LEDPattern(0);
 			}
 		}
+		
+	}
+	
+	private boolean checkForSpace(int color)
+	{
+		if(color == 3)
+		{
+			if(PathColorRecognizerThread.map[0][0] == 1 && PathColorRecognizerThread.map[0][2] == 1)
+				return false;
+		}
+		else if (color == 0)
+		{
+			if(PathColorRecognizerThread.map[1][0] == 1 && PathColorRecognizerThread.map[1][2] == 1)
+				return false;
+		}
+		else
+			if(PathColorRecognizerThread.map[2][0] == 1 && PathColorRecognizerThread.map[2][2] == 1)
+				return false;
+		return true;
 		
 	}
 
