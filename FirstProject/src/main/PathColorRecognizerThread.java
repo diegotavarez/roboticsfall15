@@ -11,13 +11,13 @@ public class PathColorRecognizerThread extends Thread {
 	public static Location current_location = new Location(3,1); // 3,1 pq tem que ser 2,1 a primeira celula entao qd
 																 // achar a primeira celula diminui 1 e fica 2,1
 	public static int current_color = -1;
-	public static int[][] map = new int[3][3];
+	public static Cell[][] map = new Cell[3][3];
 
 	public PathColorRecognizerThread(final EV3ColorSensor colorSensor) {
 		this.colorSensor = colorSensor;
 		for(int i = 0; i < 3; i++)
 			for(int j = 0; j < 3; j++)
-				map[i][j] = 0;
+				map[i][j] = new Cell(0, -1);
 	}
 
 	@Override
@@ -47,17 +47,25 @@ public class PathColorRecognizerThread extends Thread {
 			
 					if(PilotThread.travel_distance == 10)
 					{
-						updateCurrentLocation(true); // esta chamando varias vezes (corrigir)
+						updateCurrentLocation(true);
 					}
 					else
 						updateCurrentLocation(false);
+
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ()] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ()].getOccupied(), 0);
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].getOccupied(), 0);
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].getOccupied(), 0);		
 				}
 				Button.LEDPattern(2);
 			//	System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
 				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
-					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] == 0)
+					System.out.println(" ocupado = " + map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].occupied);
+					 System.out.println("color = " + map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].color);
+					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].occupied == 0 &&
+							map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].color == 0)
 						Teste.pilotThread.turnRight();
-					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] == 0)
+					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].occupied == 0 &&
+							map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].color == 0)
 						Teste.pilotThread.turnLeft();
 					else
 						System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) 
@@ -68,8 +76,8 @@ public class PathColorRecognizerThread extends Thread {
 				}
 				current_color = 0; // chamar dentro do turn, vai q
 
-				System.out.println("SAI DO RED" + "i = " + getCurrentLocation().getI());
-				System.out.println("SAI DO RED" + "j = " + getCurrentLocation().getJ());
+			//	System.out.println("SAI DO RED" + "i = " + getCurrentLocation().getI());
+			//	System.out.println("SAI DO RED" + "j = " + getCurrentLocation().getJ());
 				break;
 			//GREEN
 			case 1:
@@ -84,15 +92,24 @@ public class PathColorRecognizerThread extends Thread {
 					}
 					else
 						updateCurrentLocation(false);
+					
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ()] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ()].getOccupied(), 1);
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].getOccupied(), 1);
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].getOccupied(), 1);
+
 				}
 				// updateLocation
 				Button.LEDPattern(1);
 			//	System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
 				
 				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
-					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] == 0)
+					System.out.println(" ocupado = " + map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].occupied);
+					 System.out.println("color = " + map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].color);
+					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].occupied == 0 &&
+							map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].color == 1)
 						Teste.pilotThread.turnRight();
-					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] == 0)
+					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].occupied == 0 &&
+							map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].color == 1)
 						Teste.pilotThread.turnLeft();
 					else
 						System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) 
@@ -104,8 +121,8 @@ public class PathColorRecognizerThread extends Thread {
 
 				}
 				current_color = 1;
-				System.out.println("sai do green" + "i = " + getCurrentLocation().getI());
-				System.out.println("sai do green" + "j = " + getCurrentLocation().getJ());
+			//	System.out.println("sai do green" + "i = " + getCurrentLocation().getI());
+			//	System.out.println("sai do green" + "j = " + getCurrentLocation().getJ());
 				break;
 			//YELLOW
 			case 3:
@@ -113,20 +130,29 @@ public class PathColorRecognizerThread extends Thread {
 				{
 					System.out.println("ENTREI NO yellow" + "i = " + getCurrentLocation().getI());
 					System.out.println("ENTREI NO yellow" + "j = " + getCurrentLocation().getJ());
+	
 					if(PilotThread.travel_distance == 10)
 					{
 						updateCurrentLocation(true);
 					}
 					else
 						updateCurrentLocation(false);
+					
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ()] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ()].getOccupied(), 3);
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].getOccupied(), 3);
+					map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] = new Cell(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].getOccupied(), 3);
 				}
 				// updateLocation
 				Button.LEDPattern(3);
 			//	System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) + Integer.toString(colorId));
 				if(ObjectColorRecognizerThread.objectColor==colorId && delivered == false){
-					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1] == 0)
+					System.out.println(" ocupado = " + map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].occupied);
+					 System.out.println("color = " + map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].color);
+					if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].occupied == 0
+							&& map[getCurrentLocation().getI()][getCurrentLocation().getJ() + 1].color == 3)
 						Teste.pilotThread.turnRight();
-					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1] == 0)
+					else if(map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].occupied == 0
+							&& map[getCurrentLocation().getI()][getCurrentLocation().getJ() - 1].color == 3)
 						Teste.pilotThread.turnLeft();
 					else
 						System.out.println(Integer.toString(ObjectColorRecognizerThread.objectColor) 
@@ -137,8 +163,8 @@ public class PathColorRecognizerThread extends Thread {
 
 				}
 				current_color = 3;
-				System.out.println("sai do yellow" + "i = " + getCurrentLocation().getI());
-				System.out.println("sai do yellow" + "j = " + getCurrentLocation().getJ());
+			//	System.out.println("sai do yellow" + "i = " + getCurrentLocation().getI());
+			//	System.out.println("sai do yellow" + "j = " + getCurrentLocation().getJ());
 				break;
 			//BLUE
 			case 2:

@@ -78,23 +78,37 @@ public class ObjectColorRecognizerThread extends Thread {
 		
 	}
 	
+	private int getPositionOfColor(int color){
+
+			if(PathColorRecognizerThread.map[2][1].getColor() == color)
+			{
+				return 2;
+			}
+			else if (PathColorRecognizerThread.map[1][1].getColor() == color)
+				return 1;
+			else
+				return 0;
+	}
+	
 	private boolean checkForSpace(int color)
 	{
 		if(color == 3)
 		{
-			if(PathColorRecognizerThread.map[0][0] == 1 && PathColorRecognizerThread.map[0][2] == 1)
+			if(PathColorRecognizerThread.map[getPositionOfColor(color)][0].getOccupied() == 1 &&
+					PathColorRecognizerThread.map[getPositionOfColor(color)][2].getOccupied() == 1)
 				return false;
 		}
 		else if (color == 0)
 		{
-			if(PathColorRecognizerThread.map[1][0] == 1 && PathColorRecognizerThread.map[1][2] == 1)
+			if(PathColorRecognizerThread.map[getPositionOfColor(color)][0].getOccupied() == 1 &&
+					PathColorRecognizerThread.map[getPositionOfColor(color)][2].getOccupied() == 1)
 				return false;
 		}
 		else
-			if(PathColorRecognizerThread.map[2][0] == 1 && PathColorRecognizerThread.map[2][2] == 1)
+			if(PathColorRecognizerThread.map[getPositionOfColor(color)][0].getOccupied() == 1 &&
+			PathColorRecognizerThread.map[getPositionOfColor(color)][2].getOccupied() == 1)
 				return false;
-		return true;
-		
+		return true;		
 	}
 
 	private void threadSleep(final int ms) {
