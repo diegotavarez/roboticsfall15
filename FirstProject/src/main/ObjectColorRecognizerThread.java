@@ -48,6 +48,8 @@ public class ObjectColorRecognizerThread extends Thread {
 				{
 				objectColor = 0;
 				this.suspend();
+				}else{
+					playSound(2);
 				}
 				break;
 			//GREEN
@@ -60,6 +62,8 @@ public class ObjectColorRecognizerThread extends Thread {
 				{
 				objectColor = 1;
 				this.suspend();
+				}else{
+					playSound(2);
 				}
 				
 				break;
@@ -73,6 +77,8 @@ public class ObjectColorRecognizerThread extends Thread {
 				{
 				objectColor = 3;
 				this.suspend();
+				}else{
+					playSound(2);
 				}
 				break;
 			//BLUE
@@ -145,7 +151,13 @@ public class ObjectColorRecognizerThread extends Thread {
 			File myFile = new File("yellowobject.wav");
 			Sound.playSample(myFile, 100);
 			
+		}else if(id==2){
+			
+			File myFile = new File("nospace.wav");
+			Sound.playSample(myFile, 100);
+			
 		}
+			
 		
 	}
 
