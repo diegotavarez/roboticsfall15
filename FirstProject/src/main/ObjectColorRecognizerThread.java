@@ -1,5 +1,7 @@
 package main;
 
+import java.io.File;
+
 import javax.swing.text.DefaultEditorKit.BeepAction;
 
 import lejos.hardware.Button;
@@ -39,6 +41,8 @@ public class ObjectColorRecognizerThread extends Thread {
 			//RED
 			case 0:
 				System.out.println("RED OBJECT");
+				
+				playSound(colorId);
 
 				if(checkForSpace(0))
 				{
@@ -50,6 +54,8 @@ public class ObjectColorRecognizerThread extends Thread {
 			case 1:
 				System.out.println("GREEN OBJECT");
 				
+				playSound(colorId);
+				
 				if(checkForSpace(1))
 				{
 				objectColor = 1;
@@ -60,6 +66,9 @@ public class ObjectColorRecognizerThread extends Thread {
 			//YELLOW
 			case 3:
 				System.out.println("YELLOW OBJECT");
+				
+				playSound(colorId);
+				
 				if(checkForSpace(3))
 				{
 				objectColor = 3;
@@ -117,6 +126,27 @@ public class ObjectColorRecognizerThread extends Thread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void playSound(int id){
+		
+		if(id==0){
+			
+			File myFile = new File("redobject.wav");
+			Sound.playSample(myFile, 100);
+			
+		}else if(id == 1){
+			
+			File myFile = new File("greenobject.wav");
+			Sound.playSample(myFile, 100);
+			
+		}else if(id == 3){
+			
+			File myFile = new File("yellowobject.wav");
+			Sound.playSample(myFile, 100);
+			
+		}
+		
 	}
 
 }

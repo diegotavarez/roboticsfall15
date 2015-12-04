@@ -3,6 +3,7 @@ package main;
 import java.util.Stack;
 
 import lejos.hardware.Button;
+import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
@@ -12,6 +13,7 @@ import lejos.robotics.RegulatedMotor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.utility.Delay;
 import lejos.utility.PilotProps;
+import java.io.File;
 
 
 public class Teste{
@@ -43,6 +45,7 @@ public class Teste{
 	public static PilotThread pilotThread;
 
 	public static void main(String[] args) throws InterruptedException{
+		
 		final EV3ColorSensor pathColorSensor = new EV3ColorSensor(SensorPort.S3);
 		final EV3ColorSensor objectColorSensor = new EV3ColorSensor(SensorPort.S4);
 
